@@ -1,8 +1,12 @@
 import { products } from "../data/products.js";
 import { cart, removefromcart } from "../data/cart.js";
 import { formatcurrency } from "./utils/price.js";
-import { updatecartquantity } from "./product-renderer.js";
+import { storecartquantity } from "./utils/cartcount.js";
+import dayjs from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
+const today = dayjs();
+const deliverydate = today.add(7, "days");
+console.log(deliverydate.format("dddd, MMMM, D"));
 let checkoutHTML = "";
 
 cart.forEach((cartitem) => {
@@ -25,7 +29,7 @@ cart.forEach((cartitem) => {
 
               <div class="cart-item-details">
                 <div class="product-name">
-${matchingProduct.name}
+                ${matchingProduct.name}
                 </div>
                 <div class="product-price">
                  $${formatcurrency(matchingProduct.priceCents)}
@@ -38,8 +42,7 @@ ${matchingProduct.name}
                   <span class="update-quantity-link link-primary">
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary" data-product-id="${matchingProduct.id}"
-">
+                  <span class="delete-quantity-link link-primary" data-product-id="${matchingProduct.id}">
                     Delete
                   </span>
                 </div>
@@ -103,7 +106,18 @@ document.querySelectorAll(".delete-quantity-link").forEach((link) => {
 
     const container = document.querySelector(`.cart-item-${productId}`);
     container.remove();
-});
+  });
 });
 
-document.getElementById('checkoutcount').innerHTML = updatecartquantity();
+const checkoutcount = document.getElementById("checkoutcount");
+function checkoutquantity() {
+  let cartquantity = 0;
+  cart.forEach((cartitem) => {
+    cartquantity += cartitem.quantity;
+  });
+
+  storecartquantity();
+
+  checkoutcount.innerHTML = cartquantity;
+}
+checkoutquantity();

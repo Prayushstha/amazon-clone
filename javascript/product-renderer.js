@@ -57,6 +57,7 @@ products.forEach((product) => {
 productgrid.innerHTML = productsHTML;
 
 // Cart render
+
 const cartbtn = document.querySelectorAll("#cartbtn");
 cartbtn.forEach((button) => {
   button.addEventListener("click", () => {
@@ -67,15 +68,12 @@ cartbtn.forEach((button) => {
 });
 
 export function updatecartquantity() {
-   console.log(document.querySelector(".cart-quantity"));
-  // display cart quantity in header
   const cartquantityHTML = document.querySelector(".cart-quantity");
   let cartquantity = 0;
   cart.forEach((cartitem) => {
     cartquantity += cartitem.quantity;
   });
   cartquantityHTML.innerHTML = cartquantity;
-  
-  console.log(cartquantity);
+  localStorage.setItem('cartquantity', cartquantity);
   return cartquantity;
 }
