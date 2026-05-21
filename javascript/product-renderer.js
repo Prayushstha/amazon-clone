@@ -1,5 +1,10 @@
+import { cart, addtocart } from "../data/cart.js";
+import { products } from "../data/products.js";
+import { formatcurrency } from "./utils/price.js";
+
 let productsHTML = "";
 const productgrid = document.querySelector(".products-grid");
+
 products.forEach((product) => {
   productsHTML += `<div class="product-container">
           <div class="product-image-container">
@@ -20,7 +25,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-price">
-            ${(product.priceCents / 100).toFixed(2)}
+           $${formatcurrency(product.priceCents)}
           </div>
 
           <div class="product-quantity-container">
@@ -49,41 +54,25 @@ products.forEach((product) => {
           </button>
         </div>`;
 });
-
 productgrid.innerHTML = productsHTML;
 
-// Add to cart
+// Cart render
 const cartbtn = document.querySelectorAll("#cartbtn");
 cartbtn.forEach((button) => {
   button.addEventListener("click", () => {
     const productid = button.dataset.productId;
-
-    let matchingItem;
-
-    cart.forEach((item) => {
-      if (productid === item.productId) {
-        matchingItem = item;
-      }
-    });
-
-    if (matchingItem) {
-      matchingItem.quantity++;
-    } else {
-      cart.push({
-        productId: productid,
-        quantity: 1,
-      });
-    }
-     console.log(cart);
-
-    // display cart quantity in header
-    const cartquantityHTML = document.querySelector(".cart-quantity");
-    let cartquantity = 0;
-    cart.forEach((item) => {
-      cartquantity += item.quantity;
-    });
-    cartquantityHTML.innerHTML = cartquantity;
-    console.log(cartquantity);
-    
+    addtocart(productid);
+    updatecartquantity();
   });
 });
+
+function updatecartquantity() {
+  // display cart quantity in header
+  const cartquantityHTML = document.querySelector(".cart-quantity");
+  let cartquantity = 0;
+  cart.forEach((cartitem) => {
+    cartquantity += cartitem.quantity;
+  });
+  cartquantityHTML.innerHTML = cartquantity;
+  console.log(cartquantity);
+}
