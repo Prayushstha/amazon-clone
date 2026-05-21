@@ -66,7 +66,8 @@ cartbtn.forEach((button) => {
   });
 });
 
-function updatecartquantity() {
+export function updatecartquantity() {
+   console.log(document.querySelector(".cart-quantity"));
   // display cart quantity in header
   const cartquantityHTML = document.querySelector(".cart-quantity");
   let cartquantity = 0;
@@ -74,5 +75,7 @@ function updatecartquantity() {
     cartquantity += cartitem.quantity;
   });
   cartquantityHTML.innerHTML = cartquantity;
+  
   console.log(cartquantity);
+  return cartquantity;
 }

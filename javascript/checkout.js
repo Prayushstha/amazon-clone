@@ -1,6 +1,7 @@
 import { products } from "../data/products.js";
 import { cart, removefromcart } from "../data/cart.js";
 import { formatcurrency } from "./utils/price.js";
+import { updatecartquantity } from "./product-renderer.js";
 
 let checkoutHTML = "";
 
@@ -104,3 +105,5 @@ document.querySelectorAll(".delete-quantity-link").forEach((link) => {
     container.remove();
 });
 });
+
+document.getElementById('checkoutcount').innerHTML = updatecartquantity();
