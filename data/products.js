@@ -659,3 +659,16 @@ export const products = [
     ]
   }
 ];
+
+
+export function getproduct(productId){
+ 
+    let matchingProduct;
+ products.forEach((product) => {
+       if (product.id === productId) {
+         matchingProduct = product;
+       }
+     });
+ 
+return matchingProduct;
+}
